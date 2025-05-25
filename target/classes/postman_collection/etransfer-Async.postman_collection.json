@@ -17,7 +17,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"productId\": 1436,\r\n    \"name\": \"Mobile\",\r\n    \"productType\": \"Electronics\",\r\n    \"qty\": 1,\r\n    \"price\": 10000\r\n\r\n}",
+					"raw": "{\r\n    \"connectId\": 1436,\r\n    \"name\": \"Mobile\",\r\n    \"productType\": \"Electronics\",\r\n    \"qty\": 1,\r\n    \"price\": 10000\r\n\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

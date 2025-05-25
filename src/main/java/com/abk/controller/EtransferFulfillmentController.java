@@ -11,7 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/sendMoney")
 public class EtransferFulfillmentController {
-
+    /* All Required process */
+    /*
+      1. Inventory service check Transaction type availability
+      2. Process payment for order (Enrolment Check)
+      3. Notify to the user
+      3. Assign to vendor - Check Transfer Eligibility
+      4. Fraud Check of transfer
+      5. Account Posting Debit
+      6. Interac Begin
+      7. Interac Commit
+      **/
 
     @Autowired
     private EtransferFulfillmentService service;
@@ -21,10 +31,11 @@ public class EtransferFulfillmentController {
         service.processOrder(transaction); // synchronous
         // asynchronous
         service.notifyCustomer(transaction);
-        service.assignVendor(transaction);
-        service.packaging(transaction);
-        service.assignDeliveryPartner(transaction);
-        service.assignTrailerAndDispatch(transaction);
+        service.eligbilityCheck(transaction);
+        service.fraudCheck(transaction);
+        service.accountPosting(transaction);
+        service.interacBegin(transaction);
+        service.interacCommit(transaction);
         return ResponseEntity.ok(transaction);
     }
 }

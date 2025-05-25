@@ -12,9 +12,8 @@ import lombok.NoArgsConstructor;
 public class Transaction {
 
     private int connectId;
-    private String name;
-    private String productType; // email, commerceTransfer, Account based etc
-    private int qty;
+    private String channelName;
+    private String transferType; // email, commerceTransfer, Account based etc
     private double price;
-    private String trackingId;
+    private String trackingId; //traceId
 }

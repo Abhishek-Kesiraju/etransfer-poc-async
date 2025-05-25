@@ -20,18 +20,19 @@ public class EtransferFulfillmentService {
     /* All Required process */
     /*
       1. Inventory service check Transaction type availability
-      2. Process payment for order
+      2. Process payment for order (Enrolment Check)
       3. Notify to the user
       3. Assign to vendor - Check Transfer Eligibility
-      4. packaging - Fraud Check of transfer
-      5. assign delivery partner - Account Posting Debit
-      6. assign trailer - Interac Begin
-      7. dispatch product - Interac Commit
+      4. Fraud Check of transfer
+      5. Account Posting Debit
+      6. Interac Begin
+      7. Interac Commit
       **/
 
     public Transaction processOrder(Transaction order) throws InterruptedException {
         order.setTrackingId(UUID.randomUUID().toString());
         if (inventoryService.checkProductAvailability(order.getConnectId())) {
+            log.info("Enrolment Check completed - Synchronous");
             //handle exception here
             paymentService.processPayment(order);
         } else {
@@ -46,24 +47,31 @@ public class EtransferFulfillmentService {
         log.info("Notified to the Customer " + Thread.currentThread().getName());
     }
     @Async("asyncTaskExecutor")
-    public void assignVendor(Transaction order) throws InterruptedException {
+    public void eligbilityCheck(Transaction order) throws InterruptedException {
         Thread.sleep(5000L);
-        log.info(" Transfer Eligibility check completed" + Thread.currentThread().getName());
+        log.info("Transfer Eligibility check completed" + Thread.currentThread().getName());
     }
     @Async("asyncTaskExecutor")
-    public void packaging(Transaction order) throws InterruptedException {
+    public void fraudCheck(Transaction order) throws InterruptedException {
         Thread.sleep(2000L);
         log.info("Transfer Fraud Check completed " + Thread.currentThread().getName());
     }
     @Async("asyncTaskExecutor")
-    public void assignDeliveryPartner(Transaction order) throws InterruptedException {
+    public void accountPosting(Transaction order) throws InterruptedException {
         Thread.sleep(10000L);
         log.info("Transfer Account Posting completed " + Thread.currentThread().getName());
     }
 
     @Async("asyncTaskExecutor")
-    public void assignTrailerAndDispatch(Transaction order) throws InterruptedException {
+    public void interacBegin(Transaction order) throws InterruptedException {
         Thread.sleep(3000L);
-        log.info("Interac Begin completed \n Interac Commit complete" + Thread.currentThread().getName());
+        log.info("Interac Begin completed " + Thread.currentThread().getName());
     }
+
+    @Async("asyncTaskExecutor")
+    public void interacCommit(Transaction order) throws InterruptedException {
+        Thread.sleep(3000L);
+        log.info("Interac Commit completed " + Thread.currentThread().getName());
+    }
+
 }
